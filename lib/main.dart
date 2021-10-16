@@ -2,7 +2,8 @@ import 'dart:convert';
 
 import 'package:BackgroundTest/helper/apiHelper.dart';
 import 'package:BackgroundTest/modals/global.dart';
-import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
+import 'package:BackgroundTest/screens/login.dart';
+import 'package:BackgroundTest/screens/user_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
@@ -12,56 +13,16 @@ import 'package:http/http.dart' as http;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final int helloAlarmID = 0;
-  await AndroidAlarmManager.initialize();
+
   runApp(GetMaterialApp(
     title: "Number App",
-    home: MyApp(),
+    home: Login(),
     debugShowCheckedModeBanner: false,
     theme: ThemeData(
       textTheme: GoogleFonts.muliTextTheme(),
     ),
   ));
-  await AndroidAlarmManager.periodic(
-      const Duration(seconds: 1), helloAlarmID, callApi,
-      rescheduleOnReboot: true);
 }
-
-void callApi() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  int d = prefs.get("counter");
-
-  if (d == null) {
-    d = 0;
-  }
-
-  print("yeah++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-  var request =
-      http.Request('POST', Uri.parse('http://15.206.108.249/test-background'));
-  Map body = {"counter": (d + 1).toString()};
-
-  request.body = jsonEncode(body);
-  var headers = {'Content-Type': 'application/json'};
-  request.headers.addAll(headers);
-
-  http.StreamedResponse response = await request.send();
-
-  if (response.statusCode == 200 || response.statusCode == 202) {
-    var da = await response.stream.bytesToString();
-    await prefs.setInt("counter", (d + 1));
-    print(
-        "yeah++++++++++++++++++++++++++++++++++++++++++++++asdfasdfasfdasf++++++++++");
-    print(await prefs.get("counter"));
-
-    print(da);
-  } else {
-    print("yeah---------------------------------------------");
-
-    print(response.reasonPhrase);
-  }
-}
-
-saveData() async {}
 
 class MyApp extends StatefulWidget {
   const MyApp({Key key}) : super(key: key);
@@ -74,11 +35,23 @@ class _MyAppState extends State<MyApp> {
   bool loading = true;
   SmsQuery query = new SmsQuery();
   List<SmsMessage> messages = [];
+  DateTime fromDate = DateTime.now().subtract(Duration(days: 3));
+
+  fetchDateLocally() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String date = prefs.getString("date");
+    if (date == "" || date == null) {
+    } else
+      fromDate = DateTime.parse(date);
+
+    print(fromDate);
+  }
 
   int index = 1;
 
   @override
   void initState() {
+    fetchDateLocally();
     fetchSMS();
     super.initState();
   }
@@ -154,7 +127,7 @@ class _MyAppState extends State<MyApp> {
       });
       date.add({'date': key, 'total': count});
     });
-
+    await backgroundApi();
     loading = false;
     setState(() {});
   }
@@ -162,10 +135,11 @@ class _MyAppState extends State<MyApp> {
   backgroundApi() async {
     double totalRoundUps = 0;
     List transactions = [];
-    List previousDateString = ("21-09-2021").split("-");
-    DateTime previousDate = DateTime(int.parse(previousDateString[2]),
-        int.parse(previousDateString[1]), int.parse(previousDateString[0]));
-
+    // List previousDateString = ("21-09-2021").split("-");
+    // DateTime previousDate = DateTime(int.parse(previousDateString[2]),
+    //     int.parse(previousDateString[1]), int.parse(previousDateString[0]));
+    DateTime previousDate = fromDate;
+    DateTime now = DateTime.now();
     date.forEach((element) {
       List date = element["date"].toString().split('-');
       DateTime d =
@@ -184,41 +158,40 @@ class _MyAppState extends State<MyApp> {
         });
       }
     });
+    if (transactions.length > 0) {
+      Map<String, dynamic> body = {
+        "round_up_sum": totalRoundUps.toString(),
+        "transactions": (transactions)
+      };
 
-    Map<String, dynamic> body = {
-      "round_up_sum": totalRoundUps.toString(),
-      "transactions": (transactions)
-    };
+      print(body);
+      print(body);
+      print(body);
 
-    var headers = {
-      'Authorization': 'Bearer ${apiToken.toString()}',
-      'Content-Type': 'application/json'
-    };
-    var request =
-        http.Request('POST', Uri.parse(baseUrl + 'api/background-transaction'));
-    request.body = jsonEncode(body);
-    request.headers.addAll(headers);
+      var headers = {
+        'Authorization': 'Bearer ${apiToken.toString()}',
+        'Content-Type': 'application/json'
+      };
+      var request = http.Request(
+          'POST', Uri.parse(baseUrl + 'api/background-transaction'));
+      request.body = jsonEncode(body);
+      request.headers.addAll(headers);
 
-    http.StreamedResponse response = await request.send();
+      http.StreamedResponse response = await request.send();
 
-    if (response.statusCode == 200) {
-      print(await response.stream.bytesToString());
-    } else {
-      print(response.reasonPhrase);
+      if (response.statusCode == 200) {
+        print(await response.stream.bytesToString());
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString("date", now.toString());
+      } else {
+        print(response.reasonPhrase);
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          SharedPreferences prefs = await SharedPreferences.getInstance();
-          print(await prefs.get("counter"));
-          // print(jsonDecode(await prefs.get("key")).length);
-        },
-        child: Text("DAsf"),
-      ),
       body: Padding(
         padding: const EdgeInsets.all(21.0),
         child: loading == true

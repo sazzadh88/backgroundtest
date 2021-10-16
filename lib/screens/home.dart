@@ -1,3 +1,4 @@
+import 'package:BackgroundTest/screens/user_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:BackgroundTest/helper/apiHelper.dart';
@@ -58,7 +59,28 @@ class _HomeState extends State<Home> {
                             Row(
                               children: [
                                 SizedBox(
-                                  width: 50,
+                                  width: 20,
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    Get.to(UserProfile());
+                                  },
+                                  child: Container(
+                                      decoration:
+                                          BoxDecoration(shape: BoxShape.circle),
+                                      height: 50,
+                                      width: 50,
+                                      child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(40),
+                                          child: user["avatar"] == null
+                                              ? Icon(
+                                                  Icons.supervised_user_circle,
+                                                  size: 30,
+                                                  color: Color(0XFFFFDEB0))
+                                              : Image.network(
+                                                  user["avatar"],
+                                                ))),
                                 ),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -286,19 +308,22 @@ class _HomeState extends State<Home> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceEvenly,
                                     children: [
-                                      Container(
-                                        height: 40,
-                                        width: 150,
-                                        decoration: BoxDecoration(
-                                            color: Color(0XFFFFDEB0),
-                                            borderRadius:
-                                                BorderRadius.circular(10)),
-                                        child: Center(
-                                          child: Text(
-                                            "Setup Account Now",
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              color: Color(0XFF1F2A4B),
+                                      InkWell(
+                                        onTap: () {},
+                                        child: Container(
+                                          height: 40,
+                                          width: 150,
+                                          decoration: BoxDecoration(
+                                              color: Color(0XFFFFDEB0),
+                                              borderRadius:
+                                                  BorderRadius.circular(10)),
+                                          child: Center(
+                                            child: Text(
+                                              "Setup Account Now",
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Color(0XFF1F2A4B),
+                                              ),
                                             ),
                                           ),
                                         ),
