@@ -9,6 +9,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sms/sms.dart';
+import 'screens/home_final.dart';
+import 'screens/orders.dart';
+import 'screens/profile.dart';
 import 'package:http/http.dart' as http;
 
 void main() async {
@@ -16,7 +19,11 @@ void main() async {
 
   runApp(GetMaterialApp(
     title: "Number App",
-    home: Login(),
+    // home: Login(),
+    // home: Profile(),
+    // home: MyApp(),
+    // home: Orders(),
+    home: HomeFinal(),
     debugShowCheckedModeBanner: false,
     theme: ThemeData(
       textTheme: GoogleFonts.muliTextTheme(),
@@ -206,9 +213,25 @@ class _MyAppState extends State<MyApp> {
                     SizedBox(
                       height: 60,
                     ),
-                    Text(
-                      "NetWorth",
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                    Row(
+                      children: [
+                        Text(
+                          "NetWorth",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Spacer(),
+                        Container(
+                            width: 110,
+                            height: 40,
+                            child: Center(
+                                child: Text("Withdraw",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16))),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                border: Border.all(color: Colors.black)))
+                      ],
                     ),
                     SizedBox(
                       height: 20,
