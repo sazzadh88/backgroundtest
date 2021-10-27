@@ -130,6 +130,17 @@ class _LoginState extends State<Login> {
                             } else {
                               user = response["user"];
                               apiToken = response["api_token"];
+                              print(apiToken);
+                              print(apiToken);
+                              print(apiToken);
+                              print(apiToken);
+                              print(apiToken);
+                              print(apiToken);
+                              print(apiToken);
+                              print(apiToken);
+                              print(apiToken);
+                              print(apiToken);
+                              print(apiToken);
                               if (user["otp_verified"] == 0) {
                                 Get.to(Verify());
                               } else {

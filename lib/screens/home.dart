@@ -137,43 +137,46 @@ class _HomeState extends State<Home> {
                                         child: Container(
                                       child: Row(
                                         children: [
-                                          // SizedBox(
-                                          //   width: 30,
-                                          // ),
-                                          Expanded(
-                                            child: Column(
-                                              children: [
-                                                Spacer(),
-                                                Text(
-                                                  "Total Portfolio",
-                                                  style: TextStyle(
-                                                      fontSize: 18,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                                Text(
-                                                  "₹0",
-                                                  style: TextStyle(
-                                                      fontSize: 22,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                                Text(
-                                                  "NAV as on",
-                                                  style: TextStyle(
-                                                      fontSize: 18,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                                Spacer(),
-                                              ],
-                                            ),
+                                          SizedBox(
+                                            width: 30,
                                           ),
-                                          // Spacer(),
+                                          Column(
+                                            children: [
+                                              Spacer(),
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    "Total Portfolio",
+                                                    style: TextStyle(
+                                                      fontSize: 18,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    "₹0",
+                                                    style: TextStyle(
+                                                        fontSize: 22,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                  Text(
+                                                    "NAV as on",
+                                                    style: TextStyle(
+                                                      fontSize: 18,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              Spacer(),
+                                            ],
+                                          ),
+
                                           Expanded(
                                             child: Row(
                                               children: [
-                                                Icon(Icons.arrow_upward),
+                                                Spacer(),
+                                                Image.asset("assets/up.png"),
                                                 Text(
                                                   " 78.9%",
                                                   style: TextStyle(
@@ -188,6 +191,7 @@ class _HomeState extends State<Home> {
                                                       fontWeight:
                                                           FontWeight.bold),
                                                 ),
+                                                Spacer(),
                                               ],
                                             ),
                                           ),
@@ -216,14 +220,13 @@ class _HomeState extends State<Home> {
                                                 Text(
                                                   "Invested\nAmount\n",
                                                   style: TextStyle(
-                                                      fontSize: 18,
-                                                      fontWeight:
-                                                          FontWeight.bold),
+                                                    fontSize: 18,
+                                                  ),
                                                 ),
                                                 Text(
                                                   "₹850",
                                                   style: TextStyle(
-                                                      fontSize: 22,
+                                                      fontSize: 18,
                                                       fontWeight:
                                                           FontWeight.bold),
                                                 ),
@@ -239,14 +242,13 @@ class _HomeState extends State<Home> {
                                                 Text(
                                                   "Invested\nsince\n",
                                                   style: TextStyle(
-                                                      fontSize: 18,
-                                                      fontWeight:
-                                                          FontWeight.bold),
+                                                    fontSize: 18,
+                                                  ),
                                                 ),
                                                 Text(
                                                   "August 2021",
                                                   style: TextStyle(
-                                                      fontSize: 22,
+                                                      fontSize: 18,
                                                       fontWeight:
                                                           FontWeight.bold),
                                                 ),
@@ -258,17 +260,28 @@ class _HomeState extends State<Home> {
                                             child: Column(
                                               children: [
                                                 Spacer(),
-                                                Text(
-                                                  "XIPR\n",
-                                                  style: TextStyle(
-                                                      fontSize: 18,
-                                                      fontWeight:
-                                                          FontWeight.bold),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Spacer(),
+                                                    Text(
+                                                      "XIPR\n",
+                                                      style: TextStyle(
+                                                        fontSize: 18,
+                                                      ),
+                                                    ),
+                                                    Image.asset(
+                                                        "assets/info.png"),
+                                                    Spacer(),
+                                                  ],
                                                 ),
                                                 Text(
                                                   "85.50%",
                                                   style: TextStyle(
-                                                      fontSize: 22,
+                                                      fontSize: 18,
                                                       fontWeight:
                                                           FontWeight.bold),
                                                 ),
